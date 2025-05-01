@@ -20,6 +20,7 @@ class TiposSeeder extends Seeder
             array('id' => 3, 'tipo' => 'Suite', 'descripcion' => 'Habitación tipo Suite', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()),
         ];
 
+        // Insertar los datos en la tabla 'tipos'
         DB::table('tipos')->insert($datos);
     }
 }

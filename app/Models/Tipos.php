@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
+use App\Models\Tipos;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -49,31 +51,82 @@ class Tipos extends Model
      */
     public function getTipoById($id)
     {
-        return $this->find($id);
+        try {
+            $tipo = $this->findOrFail($id);
+
+            return $tipo;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Tipo not found',
+                'error' => $th->getMessage(),
+            ], 404);
+        }
     }
 
     /**
-     * @param $data
+     * @param $request
      * @return mixed
      */
-    public function createTipo($data)
+    public function createTipo(Request $request)
     {
-        return $this->create($data);
+        try {
+            $request->validate([
+                'tipo' => 'required|string|max:100',
+                'descripcion' => 'required|string|max:500',
+            ]);
+
+            $newTipo = new Tipos();
+
+            $newTipo->tipo = $request->tipo;
+            $newTipo->descripcion = $request->descripcion;
+            $newTipo->created_at = now();
+            $newTipo->updated_at = now();
+
+            $newTipo->save();
+
+            return $newTipo;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error creating Tipo',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
      * @param $id
-     * @param $data
+     * @param $request
      * @return mixed|null
      */
-    public function updateTipo($id, $data)
+    public function updateTipo($id, Request $request)
     {
-        $tipo = $this->find($id);
-        if ($tipo) {
-            $tipo->update($data);
+        try {
+            $data = $request->validate([
+                'tipo' => 'required|string|max:100',
+                'descripcion' => 'required|string|max:500',
+            ]);
+
+            $tipo = $this->findOrFail($id);
+
+            if ($request->has('tipo')) {
+                $tipo->tipo = $request->tipo;
+            }
+
+            if ($request->has('descripcion')) {
+                $tipo->descripcion = $request->descripcion;
+            }
+
+            $tipo->updated_at = now();
+
+            $tipo->update();
+
             return $tipo;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error updating Tipo',
+                'error' => $th->getMessage(),
+            ], 500);
         }
-        return null;
     }
 
     /**

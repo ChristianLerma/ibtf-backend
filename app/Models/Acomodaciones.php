@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
+use App\Models\Acomodaciones;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -49,31 +51,82 @@ class Acomodaciones extends Model
      */
     public function getAcomodacionById($id)
     {
-        return $this->find($id);
+        try {
+            $acomodacion = $this->findOrFail($id);
+
+            return $acomodacion;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Acomodacion not found',
+                'error' => $th->getMessage(),
+            ], 404);
+        }
     }
 
     /**
-     * @param $data
+     * @param $request
      * @return mixed
      */
-    public function createAcomodacion($data)
+    public function createAcomodacion(Request $request)
     {
-        return $this->create($data);
+        try {
+            $request->validate([
+                'acomodacion' => 'required|string|max:255',
+                'descripcion' => 'nullable|string|max:255',
+            ]);
+
+            $newAcomodacion = new Acomodaciones();
+
+            $newAcomodacion->acomodacion = $request->acomodacion;
+            $newAcomodacion->descripcion = $request->descripcion;
+            $newAcomodacion->created_at = now();
+            $newAcomodacion->updated_at = now();
+
+            $newAcomodacion->save();
+
+            return $newAcomodacion;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error creating Acomodacion',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
      * @param $id
-     * @param $data
+     * @param $request
      * @return mixed
      */
-    public function updateAcomodacion($id, $data)
+    public function updateAcomodacion($id, Request $request)
     {
-        $acomodacion = $this->find($id);
-        if ($acomodacion) {
-            $acomodacion->update($data);
+        try {
+            $data = $request->validate([
+                'acomodacion' => 'required|string|max:255',
+                'descripcion' => 'nullable|string|max:255',
+            ]);
+
+            $acomodacion = $this->findOrFail($id);
+
+            if($request->has('acomodacion')) {
+                $acomodacion->acomodacion = $request->acomodacion;
+            }
+
+            if($request->has('descripcion')) {
+                $acomodacion->descripcion = $request->descripcion;
+            }
+
+            $acomodacion->updated_at = now();
+
+            $acomodacion->update();
+
             return $acomodacion;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error updating Acomodacion',
+                'error' => $th->getMessage(),
+            ], 500);
         }
-        return null;
     }
 
     /**

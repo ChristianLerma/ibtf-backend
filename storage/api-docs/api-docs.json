@@ -1,0 +1,344 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "IBTF API",
+        "description": "API for IBTF",
+        "contact": {
+            "name": "Christian Lerma",
+            "url": "",
+            "email": "christianlerma@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/acomodaciones": {
+            "get": {
+                "tags": [
+                    "Acomodaciones"
+                ],
+                "summary": "Get all Acomodaciones",
+                "operationId": "d092c44f47e693db6ecf9452457ae596",
+                "responses": {
+                    "200": {
+                        "description": "Acomodaciones retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Acomodaciones"
+                ],
+                "summary": "Create a new Acomodacion",
+                "operationId": "040033c39e53a16f0ac583657f0075ad",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "acomodacion"
+                                ],
+                                "properties": {
+                                    "acomodacion": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Acomodacion created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "acomodacion": {
+                                            "type": "string"
+                                        },
+                                        "descripcion": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tipos": {
+            "get": {
+                "tags": [
+                    "Tipos"
+                ],
+                "summary": "Get all Tipos",
+                "operationId": "7d18c2a35cb4f49e452320d1369353bd",
+                "responses": {
+                    "200": {
+                        "description": "Tipos retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tipos"
+                ],
+                "summary": "Create a new Tipos",
+                "operationId": "4b95941d1728b1bf6a9e753b7ea63344",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "tipo",
+                                    "descripcion"
+                                ],
+                                "properties": {
+                                    "tipo": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tipos created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "tipo": {
+                                            "type": "string"
+                                        },
+                                        "descripcion": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/acomodaciones/{id}": {
+            "get": {
+                "tags": [
+                    "Acomodaciones"
+                ],
+                "summary": "Get Acomodacion by ID",
+                "operationId": "48df303d6103b9a3011fecf78a66db90",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Acomodacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Acomodacion retrieved successfully"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Acomodaciones"
+                ],
+                "summary": "Update Acomodacion",
+                "operationId": "9332ad2e82d34b03cab0f46bde6cffd1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Acomodacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "acomodacion"
+                                ],
+                                "properties": {
+                                    "acomodacion": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Acomodacion updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Acomodaciones"
+                ],
+                "summary": "Delete Acomodacion",
+                "operationId": "688624baea97f9da508ccb9e1a7fb78d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Acomodacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Acomodacion deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/v1/tipos/{id}": {
+            "get": {
+                "tags": [
+                    "Tipos"
+                ],
+                "summary": "Get Tipo by ID",
+                "operationId": "689e7b3d2a38ffbc8794aac1fd93f15d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Tipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tipo retrieved successfully"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tipos"
+                ],
+                "summary": "Update Tipos",
+                "operationId": "595f3944d65caf00352b74f0965be43c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Tipos",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "tipos"
+                                ],
+                                "properties": {
+                                    "tipo": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tipos updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tipos"
+                ],
+                "summary": "Delete Tipos",
+                "operationId": "e71efcefc2f168293f8699e2e84b5bbb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Tipos",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tipos deleted successfully"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Acomodaciones",
+            "description": "Acomodaciones"
+        },
+        {
+            "name": "Tipos",
+            "description": "Tipos"
+        }
+    ]
+}

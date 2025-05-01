@@ -2,6 +2,7 @@
 
 return [
     'default' => 'default',
+    'debug' => true,
     'documentations' => [
         'default' => [
             'api' => [

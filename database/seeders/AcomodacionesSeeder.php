@@ -20,6 +20,7 @@ class AcomodacionesSeeder extends Seeder
             array('id' => 3, 'acomodacion' => 'Triple', 'descripcion' => 'Acomodación Triple', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()),
         ];
 
+        // Insertar los datos en la tabla 'acomodaciones'
         DB::table('acomodaciones')->insert($datos);
     }
 }
