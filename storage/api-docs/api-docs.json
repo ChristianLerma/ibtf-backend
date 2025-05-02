@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "IBTF API",
-        "description": "API for IBTF",
+        "title": "ITBF API",
+        "description": "API for ITBF",
         "contact": {
             "name": "Christian Lerma",
             "url": "",

@@ -25,9 +25,9 @@ class AcomodacionesController extends Controller
 
     /**
      * @OA\Info(
-     *    title="IBTF API",
+     *    title="ITBF API",
      *    version="1.0.0",
-     *    description="API for IBTF",
+     *    description="API for ITBF",
      *    @OA\Contact(
      *        name="Christian Lerma",
      *        email="christianlerma@gmail.com",
