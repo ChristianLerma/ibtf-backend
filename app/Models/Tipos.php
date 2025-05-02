@@ -77,6 +77,17 @@ class Tipos extends Model
 
             $newTipo = new Tipos();
 
+            $newTipo->id = Tipos::max('id') + 1;
+            if ($newTipo->id == null) {
+                $newTipo->id = 1;
+            }
+            if ($newTipo->id == 0) {
+                $newTipo->id = 1;
+            }
+            if ($newTipo->id == '') {
+                $newTipo->id = 1;
+            }
+
             $newTipo->tipo = $request->tipo;
             $newTipo->descripcion = $request->descripcion;
             $newTipo->created_at = now();

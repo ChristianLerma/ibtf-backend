@@ -28,11 +28,11 @@ class TiposController extends Controller
      *    path="/api/v1/tipos",
      *    @OA\Get(
      *       path="/api/v1/tipos",
-     *       summary="Get all Tipos",
      *       tags={"Tipos"},
+     *       summary="Get all registers",
      *       @OA\Response(
      *          response=200,
-     *          description="Tipos retrieved successfully",
+     *          description="Retrieved successfully",
      *      )
      *    ),
      * )
@@ -42,44 +42,34 @@ class TiposController extends Controller
         /**
          * @OA\Get(
          *     path="/api/v1/tipos",
-         *     summary="Get all Tipos",
          *     tags={"Tipos"},
+         *     summary="Get all registers",
          *     @OA\Response(
          *         response=200,
-         *         description="Tipos retrieved successfully"
+         *         description="Retrieved successfully"
          *     )
          * )
          */
         $tipos = $this->tipos->getAllTipos();
 
-        /**
-         * @OA\Response(
-         *    response=200,
-         *   description="Tipos retrieved successfully",
-         *   @OA\JsonContent(
-         *       type="array",
-         *      @OA\Items(ref="#/components/schemas/Tipos")
-         *   )
-         * )
-         */
         return response()->json($tipos);
     }
 
     /**
      * @OA\Get(
      *     path="/api/v1/tipos/{id}",
-     *     summary="Get Tipo by ID",
      *     tags={"Tipos"},
+     *     summary="Get register by ID",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Tipo",
+     *         description="ID of the register",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Tipo retrieved successfully"
+     *         description="Retrieved successfully"
      *     )
      * )
      */
@@ -97,26 +87,26 @@ class TiposController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/tipos/{id}",
-     *     summary="Update Tipos",
      *     tags={"Tipos"},
+     *     summary="Update a register",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Tipos",
+     *         description="ID of the register",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"tipos"},
+     *             required={"tipo"},
      *             @OA\Property(property="tipo", type="string"),
      *             @OA\Property(property="descripcion", type="string")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Tipos updated successfully"
+     *         description="Updated successfully"
      *     )
      * )
      */
@@ -133,24 +123,24 @@ class TiposController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/tipos",
-     *     summary="Create a new Tipos",
      *     tags={"Tipos"},
+     *     summary="Create a new register",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"tipo", "descripcion"},
+     *             required={"tipo"},
      *             @OA\Property(property="tipo", type="string"),
      *             @OA\Property(property="descripcion", type="string")
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Tipos created successfully",
+     *         description="Created successfully",
      *         @OA\JsonContent(
-     *            @OA\Property(property="id", type="integer"),
-     *            @OA\Property(property="tipo", type="string"),
-     *            @OA\Property(property="descripcion", type="string"),
-     *        )
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="tipo", type="string"),
+     *             @OA\Property(property="descripcion", type="string")
+     *         )
      *     )
      * )
      */
@@ -164,19 +154,31 @@ class TiposController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/tipos/{id}",
-     *     summary="Delete Tipos",
      *     tags={"Tipos"},
+     *     summary="Delete register",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Tipos",
+     *         description="ID",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Tipos deleted successfully"
-     *     )
+     *         description="Service response message",
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     ),
+     *    @OA\Response(
+     *        response=500,
+     *       description="Internal server error"
+     *    )
      * )
      */
     public function destroy($id)

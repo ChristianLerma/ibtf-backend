@@ -47,11 +47,11 @@ class AcomodacionesController extends Controller
      *    path="/api/v1/acomodaciones",
      *    @OA\Get(
      *       path="/api/v1/acomodaciones",
-     *       summary="Get all Acomodaciones",
      *       tags={"Acomodaciones"},
+     *       summary="Get all registers",
      *       @OA\Response(
      *          response=200,
-     *          description="Acomodaciones retrieved successfully",
+     *          description="Retrieved successfully",
      *      )
      *    ),
      * )
@@ -61,44 +61,34 @@ class AcomodacionesController extends Controller
         /**
          * @OA\Get(
          *     path="/api/v1/acomodaciones",
-         *     summary="Get all Acomodaciones",
          *     tags={"Acomodaciones"},
+         *     summary="Get all registers",
          *     @OA\Response(
          *         response=200,
-         *         description="Acomodaciones retrieved successfully"
+         *         description="Retrieved successfully"
          *     )
          * )
          */
         $acomodaciones = $this->acomodaciones->getAllAcomodaciones();
 
-        /**
-         * @OA\Response(
-         *    response=200,
-         *   description="Acomodaciones retrieved successfully",
-         *   @OA\JsonContent(
-         *       type="array",
-         *      @OA\Items(ref="#/components/schemas/Acomodaciones")
-         *   )
-         * )
-         */
         return response()->json($acomodaciones);
     }
 
     /**
      * @OA\Get(
      *     path="/api/v1/acomodaciones/{id}",
-     *     summary="Get Acomodacion by ID",
      *     tags={"Acomodaciones"},
+     *     summary="Get register by ID",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Acomodacion",
+     *         description="ID of the register",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Acomodacion retrieved successfully"
+     *         description="Retrieved successfully"
      *     )
      * )
      */
@@ -114,13 +104,13 @@ class AcomodacionesController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/acomodaciones/{id}",
-     *     summary="Update Acomodacion",
      *     tags={"Acomodaciones"},
+     *     summary="Update a register",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Acomodacion",
+     *         description="ID of the register",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -133,7 +123,7 @@ class AcomodacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Acomodacion updated successfully"
+     *         description="Updated successfully"
      *     )
      * )
      */
@@ -150,8 +140,8 @@ class AcomodacionesController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/acomodaciones",
-     *     summary="Create a new Acomodacion",
      *     tags={"Acomodaciones"},
+     *     summary="Create a new register",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -162,7 +152,7 @@ class AcomodacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Acomodacion created successfully",
+     *         description="Created successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="id", type="integer"),
      *             @OA\Property(property="acomodacion", type="string"),
@@ -181,31 +171,38 @@ class AcomodacionesController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/acomodaciones/{id}",
-     *     summary="Delete Acomodacion",
      *     tags={"Acomodaciones"},
+     *     summary="Delete register",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Acomodacion",
+     *         description="ID",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
+     *         response=200,
+     *         description="Service response message",
+     *     ),
+     *     @OA\Response(
      *         response=204,
-     *         description="Acomodacion deleted successfully"
-     *     )
+     *         description="Deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     ),
+     *    @OA\Response(
+     *        response=500,
+     *       description="Internal server error"
+     *    )
      * )
      */
     public function destroy($id)
     {
-        $acomodacion = $this->acomodaciones->getAcomodacionById($id);
-        if (!$acomodacion) {
-            return response()->json(['message' => 'Acomodacion not found'], 404);
-        }
+        $result = $this->acomodaciones->deleteAcomodacion($id);
 
-        $acomodacion->delete();
-
-        return response()->json(null, 204);
+        return response()->json($result);
     }
 
     /**

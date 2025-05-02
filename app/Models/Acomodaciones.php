@@ -71,11 +71,22 @@ class Acomodaciones extends Model
     {
         try {
             $request->validate([
-                'acomodacion' => 'required|string|max:255',
-                'descripcion' => 'nullable|string|max:255',
+                'acomodacion' => 'required|string|max:100',
+                'descripcion' => 'nullable|string|max:500',
             ]);
 
             $newAcomodacion = new Acomodaciones();
+
+            $newAcomodacion->id = Acomodaciones::max('id') + 1;
+            if($newAcomodacion->id == null) {
+                $newAcomodacion->id = 1;
+            }
+            if($newAcomodacion->id == 0) {
+                $newAcomodacion->id = 1;
+            }
+            if($newAcomodacion->id == '') {
+                $newAcomodacion->id = 1;
+            }
 
             $newAcomodacion->acomodacion = $request->acomodacion;
             $newAcomodacion->descripcion = $request->descripcion;
@@ -135,12 +146,22 @@ class Acomodaciones extends Model
      */
     public function deleteAcomodacion($id)
     {
-        $acomodacion = $this->find($id);
-        if ($acomodacion) {
+        try {
+            $acomodacion = $this->findOrFail($id);
+
             $acomodacion->delete();
-            return true;
+
+            return response()->json([
+                'data' => $acomodacion,
+                'message' => 'Acomodacion deleted sussesfull',
+            ], 204);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'data' => 'Error deleting Acomodacion',
+                'message' => 'Error deleting Acomodacion',
+                'error' => $th->getMessage(),
+            ], 500);
         }
-        return false;
     }
 
     /**
