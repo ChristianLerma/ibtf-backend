@@ -43,12 +43,48 @@ class Hoteles extends Model
      */
     protected $primaryKey = 'id';
 
+    public function successResponse(object $data, string $message = 'Success')
+    {
+        return [
+            'success' => true,
+            'data' => $data,
+            'message' => $message,
+            'error' => [],
+        ];
+    }
+
+    public function errorResponse(object $data, string $message = 'Error')
+    {
+        return [
+            'success' => false,
+            'data' => $data,
+            'message' => ['error' => $message],
+            'error' => $message,
+        ];
+    }
+
     /**
      * @return mixed
      */
     public function getAllHoteles()
     {
-        return $this->all();
+        try {
+            $hoteles = $this->all();
+
+            return response()->json(
+                $this->successResponse(
+                    $hoteles,
+                    'Hoteles retrieved successfully')
+                , 200
+            );
+        } catch (\Throwable $th) {
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Error retrieving hoteles')
+                , 500
+            );
+        }
     }
 
     /**
@@ -60,11 +96,19 @@ class Hoteles extends Model
         try {
             $hotel = $this->findOrFail($id);
 
-            return $hotel;
+            return response()->json(
+                $this->successResponse(
+                    $hotel,
+                    'Hotel retrieved successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Hotel not found',
-            ], 404);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Error retrieving hotel')
+                , 500
+            );
         }
     }
 
@@ -112,12 +156,19 @@ class Hoteles extends Model
 
             $newHotel->save();
 
-            return $newHotel;
+            return response()->json(
+                $this->successResponse(
+                    $newHotel,
+                    'Hotel created successfully')
+                , 201
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error creating hotel',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Error creating hotel')
+                , 500
+            );
         }
     }
 
@@ -171,12 +222,19 @@ class Hoteles extends Model
 
             $hotel->update();
 
-            return $hotel;
+            return response()->json(
+                $this->successResponse(
+                    $hotel,
+                    'Hotel updated successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error updating hotel',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Error updating hotel')
+                , 500
+            );
         }
     }
 
@@ -191,15 +249,19 @@ class Hoteles extends Model
 
             $hotel->delete();
 
-            return response()->json([
-                'message' => 'Hotel deleted successfully',
-                'message' => 'Acomodacion deleted sussesfull',
-            ], 204);
+            return response()->json(
+                $this->successResponse(
+                    $hotel,
+                    'Hotel deleted successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error deleting hotel',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Error deleting hotel')
+                , 500
+            );
         }
     }
 
@@ -209,66 +271,25 @@ class Hoteles extends Model
      */
     public function getHotelByName($hotel)
     {
-        return $this->where('hotel', $hotel)->first();
+        try {
+            $hotel = $this->where('hotel', $hotel)->first();
+
+            return response()->json(
+                $this->successResponse(
+                    $hotel,
+                    'Hotel retrieved successfully')
+                , 200
+            );
+        } catch (\Throwable $th) {
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Error retrieving hotel')
+                , 500
+            );
+        }
     }
 
-    /**
-     * @param $descripcion
-     * @return mixed
-     */
-    public function getHotelByDescripcion($descripcion)
-    {
-        return $this->where('descripcion', $descripcion)->first();
-    }
-
-    /**
-     * @param $telefono
-     * @return mixed
-     */
-    public function getHotelByTelefono($telefono)
-    {
-        return $this->where('telefono', $telefono)->first();
-    }
-
-    /**
-     * @param $email
-     * @return mixed
-     */
-    public function getHotelByEmail($email)
-    {
-        return $this->where('email', $email)->first();
-    }
-
-    /**
-     * @param $pagina_web
-     * @return mixed
-     */
-    public function getHotelByPaginaWeb($pagina_web)
-    {
-        return $this->where('pagina_web', $pagina_web)->first();
-    }
-
-    /**
-     * @param $calificacion
-     * @return mixed
-     */
-    public function getHotelByCalificacion($calificacion)
-    {
-        return $this->where('calificacion', $calificacion)->first();
-    }
-
-    /**
-     * @param $numero_habitaciones
-     * @return mixed
-     */
-    public function getHotelByNumeroHabitaciones($numero_habitaciones)
-    {
-        return $this->where('numero_habitaciones', $numero_habitaciones)->first();
-    }
-
-    /**
-     * @return mixed
-     */
     public function getAcomodaciones()
     {
         return $this->hasMany(Acomodaciones::class, 'id_hotel', 'id');
@@ -304,5 +325,29 @@ class Hoteles extends Model
     public function getTiposByHotel($id)
     {
         return $this->getTipos()->where('id_hotel', $id)->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTiposByHotelAndTipo($id, $tipo)
+    {
+        return $this->getTiposByHotel($id)->where('id_tipo', $tipo)->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHabitaciones()
+    {
+        return $this->hasMany(Habitaciones::class, 'id_hotel', 'id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHabitacionesByHotel($id)
+    {
+        return $this->getHabitaciones()->where('id_hotel', $id)->get();
     }
 }
