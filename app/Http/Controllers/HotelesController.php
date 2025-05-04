@@ -33,6 +33,12 @@ class HotelesController extends Controller
      *       @OA\Response(
      *          response=200,
      *          description="Retrieved successfully",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *      )
      *    ),
      * )
@@ -46,13 +52,19 @@ class HotelesController extends Controller
          *     summary="Get all registers",
          *     @OA\Response(
          *         response=200,
-         *         description="Retrieved successfully"
+         *         description="Retrieved successfully",
+         *         @OA\JsonContent(
+         *             @OA\Property(property="success", type="boolean"),
+         *             @OA\Property(property="data", type="object"),
+         *             @OA\Property(property="message", type="object"),
+         *             @OA\Property(property="error", type="object")
+         *         )
          *     )
          * )
          */
         $hoteles = $this->hoteles->getAllHoteles();
 
-        return response()->json($hoteles);
+        return $hoteles;
     }
 
     /**
@@ -69,22 +81,26 @@ class HotelesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Retrieved successfully"
+     *         description="Retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
     public function show($id)
     {
         $hotel = $this->hoteles->getHotelById($id);
-        if (!$hotel) {
-            return response()->json(['message' => 'Hotel not found'], 404);
-        }
-        return response()->json($hotel);
+
+        return $hotel;
     }
 
     /**
      * @OA\Put(
-     *     path="/api/v1/hoteles/{id}",
+     *     path="/api/v1/hoteles/{id}/editar",
      *     tags={"Hoteles"},
      *     summary="Update a register",
      *     @OA\Parameter(
@@ -110,18 +126,41 @@ class HotelesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Updated successfully"
+     *         description="Updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error updating the register",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, $id)
     {
         $hotel = $this->hoteles->updateHotel($id, $request);
-        if (!$hotel) {
-            return response()->json(['message' => 'Hotel not found'], 404);
-        }
 
-        return response()->json($hotel);
+        return $hotel;
     }
 
     /**
@@ -147,24 +186,21 @@ class HotelesController extends Controller
      *         response=201,
      *         description="Created successfully",
      *         @OA\JsonContent(
-     *              @OA\Property(property="id", type="integer"),
-     *              @OA\Property(property="hotel", type="string"),
-     *              @OA\Property(property="descripcion", type="string"),
-     *              @OA\Property(property="direccion", type="string"),
-     *              @OA\Property(property="telefono", type="string"),
-     *              @OA\Property(property="email", type="string"),
-     *              @OA\Property(property="pagina_web", type="string"),
-     *              @OA\Property(property="calificacion", type="integer"),
-     *              @OA\Property(property="numero_habitaciones", type="integer")
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
      *         )
      *     ),
      *     @OA\Response(
-     *        response=404,
-     *        description="Hotel not found",
-     *        @OA\JsonContent(
-     *           @OA\Property(property="message", type="string"),
-     *          @OA\Property(property="error", type="string")
-     *        )
+     *         response=404,
+     *         description="Hotel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
@@ -172,12 +208,12 @@ class HotelesController extends Controller
     {
         $hotel = $this->hoteles->createHotel($request);
 
-        return response()->json($hotel, 201);
+        return $hotel;
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/hoteles/{id}",
+     *     path="/api/v1/hoteles/{id}/eliminar",
      *     tags={"Hoteles"},
      *     summary="Delete a register",
      *     @OA\Parameter(
@@ -189,15 +225,21 @@ class HotelesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Deleted successfully"
+     *         description="Deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $result = $this->hoteles->deleteHotel($id);
 
-        return response()->json($result);
+        return $result;
     }
 
     /**

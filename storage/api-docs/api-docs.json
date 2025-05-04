@@ -89,7 +89,28 @@
                 "operationId": "c7e7107182c27b4c083de81a8292ad4a",
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -140,23 +161,41 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer"
+                                        "success": {
+                                            "type": "boolean"
                                         },
-                                        "habitacion": {
-                                            "type": "string"
+                                        "data": {
+                                            "type": "object"
                                         },
-                                        "descripcion": {
-                                            "type": "string"
+                                        "message": {
+                                            "type": "object"
                                         },
-                                        "hotel_id": {
-                                            "type": "integer"
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hotel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
                                         },
-                                        "acomodacion_id": {
-                                            "type": "integer"
+                                        "data": {
+                                            "type": "object"
                                         },
-                                        "tipo_id": {
-                                            "type": "integer"
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -176,7 +215,28 @@
                 "operationId": "20fe4f64d792f6f07492e53657a77000",
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -232,32 +292,17 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer"
+                                        "success": {
+                                            "type": "boolean"
                                         },
-                                        "hotel": {
-                                            "type": "string"
+                                        "data": {
+                                            "type": "object"
                                         },
-                                        "descripcion": {
-                                            "type": "string"
+                                        "message": {
+                                            "type": "object"
                                         },
-                                        "direccion": {
-                                            "type": "string"
-                                        },
-                                        "telefono": {
-                                            "type": "string"
-                                        },
-                                        "email": {
-                                            "type": "string"
-                                        },
-                                        "pagina_web": {
-                                            "type": "string"
-                                        },
-                                        "calificacion": {
-                                            "type": "integer"
-                                        },
-                                        "numero_habitaciones": {
-                                            "type": "integer"
+                                        "error": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -271,11 +316,17 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
                                         "message": {
-                                            "type": "string"
+                                            "type": "object"
                                         },
                                         "error": {
-                                            "type": "string"
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -472,16 +523,85 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/habitaciones/hotel/{id}": {
+            "get": {
+                "tags": [
+                    "Habitaciones"
+                ],
+                "summary": "Get all registers by hotel",
+                "operationId": "d78916c9aae657b89df0a32dd58e6096",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the hotel",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/habitaciones/{id}/editar": {
             "put": {
                 "tags": [
                     "Habitaciones"
                 ],
                 "summary": "Update a register",
-                "operationId": "b9da4e43e2c7a00afec02ad860c9425f",
+                "operationId": "44f69e23279380c787ebc63cab9af0de",
                 "parameters": [
                     {
                         "name": "id",
@@ -529,16 +649,87 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Updated successfully"
+                        "description": "Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error updating the register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/habitaciones/{id}/eliminar": {
             "delete": {
                 "tags": [
                     "Habitaciones"
                 ],
                 "summary": "Delete a register",
-                "operationId": "dfef090caeb35d233917151866df9f3a",
+                "operationId": "91a9cc5bfb3b3c56ca3f48fe173cdc39",
                 "parameters": [
                     {
                         "name": "id",
@@ -552,7 +743,28 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Deleted successfully"
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -577,16 +789,39 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/hoteles/{id}/editar": {
             "put": {
                 "tags": [
                     "Hoteles"
                 ],
                 "summary": "Update a register",
-                "operationId": "e2fb4b2a40bc298fe9db5259932753a6",
+                "operationId": "59fceca8cbc96cebe32c01a161f0e2d8",
                 "parameters": [
                     {
                         "name": "id",
@@ -639,16 +874,87 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Updated successfully"
+                        "description": "Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error updating the register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/hoteles/{id}/eliminar": {
             "delete": {
                 "tags": [
                     "Hoteles"
                 ],
                 "summary": "Delete a register",
-                "operationId": "22b24edafe20603b1447888f7a14fe42",
+                "operationId": "e5366ad5d13e5b7f10626f6d33a6a916",
                 "parameters": [
                     {
                         "name": "id",
@@ -662,7 +968,28 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Deleted successfully"
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

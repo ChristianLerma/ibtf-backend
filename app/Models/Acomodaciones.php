@@ -163,31 +163,4 @@ class Acomodaciones extends Model
             ], 500);
         }
     }
-
-    /**
-     * @param $acomodacion
-     * @return mixed
-     */
-    public function getAcomodacionByName($acomodacion)
-    {
-        return $this->where('acomodacion', $acomodacion)->first();
-    }
-
-    /**
-     * @param $descripcion
-     * @return mixed
-     */
-    public function getAcomodacionByCreatedAt($created_at)
-    {
-        return $this->where('created_at', $created_at)->first();
-    }
-
-    /**
-     * @param $updated_at
-     * @return mixed
-     */
-    public function getAcomodacionByUpdatedAt($updated_at)
-    {
-        return $this->where('updated_at', $updated_at)->first();
-    }
 }

@@ -33,7 +33,13 @@ class HabitacionesController extends Controller
      *      @OA\Response(
      *         response=200,
      *         description="Retrieved successfully",
-     *        )
+     *         @OA\JsonContent(
+     *            @OA\Property(property="success", type="boolean"),
+     *            @OA\Property(property="data", type="object"),
+     *            @OA\Property(property="message", type="object"),
+     *            @OA\Property(property="error", type="object")
+     *         )
+     *      )
      *    )
      * )
      */
@@ -46,13 +52,19 @@ class HabitacionesController extends Controller
          *     summary="Get all registers",
          *     @OA\Response(
          *         response=200,
-         *         description="Retrieved successfully"
+         *         description="Retrieved successfully",
+         *         @OA\JsonContent(
+         *             @OA\Property(property="success", type="boolean"),
+         *             @OA\Property(property="data", type="object"),
+         *             @OA\Property(property="message", type="object"),
+         *             @OA\Property(property="error", type="object")
+         *        )
          *     )
          * )
          */
         $habitaciones = $this->habitaciones->getAllHabitaciones();
 
-        return response()->json($habitaciones);
+        return $habitaciones;
     }
 
     /**
@@ -69,22 +81,57 @@ class HabitacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Retrieved successfully"
+     *         description="Retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *        )
      *     )
      * )
      */
     public function show($id)
     {
         $habitacion = $this->habitaciones->getHabitacionById($id);
-        if (!$habitacion) {
-            return response()->json(['message' => 'Habitacion not found'], 404);
-        }
-        return response()->json($habitacion);
+
+        return $habitacion;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/habitaciones/hotel/{id}",
+     *     tags={"Habitaciones"},
+     *     summary="Get all registers by hotel",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the hotel",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *        )
+     *     )
+     * )
+     */
+    public function getHabitacionesByHotel($id)
+    {
+        $habitaciones = $this->habitaciones->getHabitacionesByHotelId($id);
+
+        return $habitaciones;
     }
 
     /**
      * @OA\Put(
-     *     path="/api/v1/habitaciones/{id}",
+     *     path="/api/v1/habitaciones/{id}/editar",
      *     tags={"Habitaciones"},
      *     summary="Update a register",
      *     @OA\Parameter(
@@ -107,18 +154,41 @@ class HabitacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Updated successfully"
+     *         description="Updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error updating the register",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, $id)
     {
         $habitacion = $this->habitaciones->updateHabitacion($id, $request);
-        if (!$habitacion) {
-            return response()->json(['message' => 'Habitacion not found'], 404);
-        }
 
-        return response()->json($habitacion);
+        return $habitacion;
     }
 
     /**
@@ -141,12 +211,20 @@ class HabitacionesController extends Controller
      *         response=201,
      *         description="Created successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="habitacion", type="string"),
-     *             @OA\Property(property="descripcion", type="string"),
-     *             @OA\Property(property="hotel_id", type="integer"),
-     *             @OA\Property(property="acomodacion_id", type="integer"),
-     *             @OA\Property(property="tipo_id", type="integer"),
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Hotel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
      *         )
      *     )
      * )
@@ -155,12 +233,12 @@ class HabitacionesController extends Controller
     {
         $habitacion = $this->habitaciones->createHabitacion($request);
 
-        return response()->json($habitacion, 201);
+        return $habitacion;
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/habitaciones/{id}",
+     *     path="/api/v1/habitaciones/{id}/eliminar",
      *     tags={"Habitaciones"},
      *     summary="Delete a register",
      *     @OA\Parameter(
@@ -172,18 +250,21 @@ class HabitacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Deleted successfully"
+     *         description="Deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $habitacion = $this->habitaciones->deleteHabitacion($id);
-        if (!$habitacion) {
-            return response()->json(['message' => 'Habitacion not found'], 404);
-        }
 
-        return response()->json(['message' => 'Habitacion deleted successfully']);
+        return $habitacion;
     }
 
     /**
