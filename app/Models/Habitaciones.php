@@ -40,12 +40,38 @@ class Habitaciones extends Model
      */
     protected $primaryKey = 'id';
 
+    public function successResponse(object $data, string $message = 'Success')
+    {
+        return [
+            'success' => true,
+            'data' => $data,
+            'message' => $message,
+            'error' => [],
+        ];
+    }
+
+    public function errorResponse(object $data, string $message = 'Error')
+    {
+        return [
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+            'error' => $message,
+        ];
+    }
+
     /**
      * @return mixed
      */
     public function getAllHabitaciones()
     {
-        return $this->all();
+        $habitaciones = $this->all();
+
+        return response()->json($this->successResponse(
+            $habitaciones,
+            'Habitaciones retrieved successfully')
+            , 200
+        );
     }
 
     /**
@@ -57,13 +83,51 @@ class Habitaciones extends Model
         try {
             $habitacion = $this->findOrFail($id);
 
-            return $habitacion;
+            return response()->json(
+                $this->successResponse(
+                    $habitacion,
+                    'Habitacion retrieved successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Habitacion not found',
-                'error' => $th->getMessage(),
-            ], 404);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Habitacion not found')
+                , 404
+            );
         }
+    }
+
+    /**
+     * @param $request
+     * @return mixed
+     */
+    public function getHabitacionesByHotelId($hotel_id)
+    {
+        $habitacion = $this->where('hotel_id', $hotel_id)
+            ->join('acomodaciones', 'habitaciones.acomodacion_id', '=', 'acomodaciones.id')
+            ->join('tipos', 'habitaciones.tipo_id', '=', 'tipos.id')
+            ->select(
+                'habitaciones.id',
+                'habitaciones.habitacion',
+                'habitaciones.descripcion',
+                'habitaciones.hotel_id',
+                'habitaciones.acomodacion_id',
+                'acomodaciones.acomodacion as acomodacion',
+                'habitaciones.tipo_id',
+                'tipos.tipo as tipo',
+                'habitaciones.created_at',
+                'habitaciones.updated_at'
+            )
+            ->get();
+
+        return response()->json(
+            $this->successResponse(
+                $habitacion,
+                'Habitaciones retrieved successfully')
+            , 200
+        );
     }
 
     /**
@@ -84,15 +148,9 @@ class Habitaciones extends Model
             $newHabitacion = new Habitaciones();
 
             $newHabitacion->id = Habitaciones::max('id') + 1;
-            if($newHabitacion->id == null){
-                $newHabitacion->id = 1;
-            }
-            if($newHabitacion->id == 0){
-                $newHabitacion->id = 1;
-            }
-            if($newHabitacion->id == ''){
-                $newHabitacion->id = 1;
-            }
+            if($newHabitacion->id == null) $newHabitacion->id = 1;
+            if($newHabitacion->id == 0) $newHabitacion->id = 1;
+            if($newHabitacion->id == '') $newHabitacion->id = 1;
 
             $newHabitacion->habitacion = $request->habitacion;
             $newHabitacion->descripcion = $request->descripcion;
@@ -104,12 +162,19 @@ class Habitaciones extends Model
 
             $newHabitacion->save();
 
-            return $newHabitacion;
+            return response()->json(
+                $this->successResponse(
+                    $newHabitacion,
+                    'Habitacion created successfully')
+                , 201
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error creating habitacion',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Habitacion not created')
+                , 500
+            );
         }
     }
 
@@ -149,12 +214,19 @@ class Habitaciones extends Model
 
             $habitacion->update();
 
-            return $habitacion;
+            return response()->json(
+                $this->successResponse(
+                    $habitacion,
+                    'Habitacion updated successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error updating habitacion',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Habitacion not found')
+                , 500
+            );
         }
     }
 
@@ -166,60 +238,22 @@ class Habitaciones extends Model
     {
         try {
             $habitacion = $this->findOrFail($id);
+
             $habitacion->delete();
 
-            return response()->json([
-                'message' => 'Habitacion deleted successfully',
-            ], 200);
+            return response()->json(
+                $this->successResponse(
+                    $habitacion,
+                    'Habitacion deleted successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error deleting habitacion',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th,
+                    'Habitacion not found')
+                , 500
+            );
         }
-    }
-    /**
-     * @param $habitacion
-     * @return mixed
-     */
-    public function getHabitacionByName($habitacion)
-    {
-        return $this->where('habitacion', $habitacion)->first();
-    }
-
-    /**
-     * @param $descripcion
-     * @return mixed
-     */
-    public function getHabitacionByDescripcion($descripcion)
-    {
-        return $this->where('descripcion', $descripcion)->first();
-    }
-
-    /**
-     * @param $hotel_id
-     * @return mixed
-     */
-    public function getHabitacionByHotelId($hotel_id)
-    {
-        return $this->where('hotel_id', $hotel_id)->get();
-    }
-
-    /**
-     * @param $acomodacion_id
-     * @return mixed
-     */
-    public function getHabitacionByAcomodacionId($acomodacion_id)
-    {
-        return $this->where('acomodacion_id', $acomodacion_id)->get();
-    }
-
-    /**
-     * @param $tipo_id
-     * @return mixed
-     */
-    public function getHabitacionByTipoId($tipo_id)
-    {
-        return $this->where('tipo_id', $tipo_id)->get();
     }
 }

@@ -153,31 +153,4 @@ class Tipos extends Model
         }
         return false;
     }
-
-    /**
-     * @param $tipo
-     * @return mixed
-     */
-    public function getTipoByName($tipo)
-    {
-        return $this->where('tipo', $tipo)->first();
-    }
-
-    /**
-     * @param $created_at
-     * @return mixed
-     */
-    public function getTipoByCreatedAt($created_at)
-    {
-        return $this->where('created_at', $created_at)->first();
-    }
-
-    /**
-     * @param $updated_at
-     * @return mixed
-     */
-    public function getTipoByUpdatedAt($updated_at)
-    {
-        return $this->where('updated_at', $updated_at)->first();
-    }
 }
