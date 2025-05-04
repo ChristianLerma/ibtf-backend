@@ -238,7 +238,7 @@ class HabitacionesController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/habitaciones/{id}",
+     *     path="/api/v1/habitaciones/{id}/eliminar",
      *     tags={"Habitaciones"},
      *     summary="Delete a register",
      *     @OA\Parameter(
@@ -260,7 +260,7 @@ class HabitacionesController extends Controller
      *     )
      * )
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $habitacion = $this->habitaciones->deleteHabitacion($id);
 

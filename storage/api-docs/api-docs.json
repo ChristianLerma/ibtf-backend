@@ -547,50 +547,6 @@
                         }
                     }
                 }
-            },
-            "delete": {
-                "tags": [
-                    "Habitaciones"
-                ],
-                "summary": "Delete a register",
-                "operationId": "dfef090caeb35d233917151866df9f3a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the register",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        },
-                                        "message": {
-                                            "type": "object"
-                                        },
-                                        "error": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
             }
         },
         "/api/v1/habitaciones/hotel/{id}": {
@@ -742,6 +698,52 @@
                     },
                     "422": {
                         "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/habitaciones/{id}/eliminar": {
+            "delete": {
+                "tags": [
+                    "Habitaciones"
+                ],
+                "summary": "Delete a register",
+                "operationId": "91a9cc5bfb3b3c56ca3f48fe173cdc39",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the register",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
