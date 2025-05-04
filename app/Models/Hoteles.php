@@ -68,13 +68,29 @@ class Hoteles extends Model
      */
     public function getAllHoteles()
     {
-        $hoteles = $this->all();
+        $hoteles = $this->leftJoin('habitaciones', 'hoteles.id', '=', 'habitaciones.hotel_id')
+            ->select('hoteles.*', \DB::raw('SUM(habitaciones.hotel_id) as total_habitaciones'))
+             ->groupBy('hoteles.id')
+             ->get();
+
+        foreach ($hoteles as $hotel) {
+            if ($hotel->total_habitaciones == null) {
+                $hotel->total_habitaciones = +0;
+            }else {
+                $hotel->total_habitaciones = +$hotel->total_habitaciones;
+            }
+
+            if ($hotel->calificacion == null) {
+                $hotel->calificacion += 0;
+            }
+        }
 
         return response()->json(
             $this->successResponse(
                 $hoteles,
                 'Hoteles retrieved successfully')
-            , 200
+
+                , 200
         );
     }
 
@@ -85,7 +101,19 @@ class Hoteles extends Model
     public function getHotelById($id)
     {
         try {
-            $hotel = $this->findOrFail($id);
+            $hotel = $this->findOrFail($id)->leftJoin('habitaciones', 'hoteles.id', '=', 'habitaciones.hotel_id')
+                ->select('hoteles.*', \DB::raw('SUM(habitaciones.hotel_id) as total_habitaciones'))
+                ->groupBy('hoteles.id')
+                ->first();
+            if ($hotel->total_habitaciones == null) {
+                $hotel->total_habitaciones += 0;
+            }else {
+                $hotel->total_habitaciones = +$hotel->total_habitaciones;
+            }
+
+            if ($hotel->calificacion == null) {
+                $hotel->calificacion = +0;
+            }
 
             return response()->json(
                 $this->successResponse(

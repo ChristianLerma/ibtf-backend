@@ -106,6 +106,7 @@ class Habitaciones extends Model
     public function getHabitacionesByHotelId($hotel_id)
     {
         $habitacion = $this->where('hotel_id', $hotel_id)
+            ->join('hoteles', 'habitaciones.hotel_id', '=', 'hoteles.id')
             ->join('acomodaciones', 'habitaciones.acomodacion_id', '=', 'acomodaciones.id')
             ->join('tipos', 'habitaciones.tipo_id', '=', 'tipos.id')
             ->select(
@@ -113,6 +114,7 @@ class Habitaciones extends Model
                 'habitaciones.habitacion',
                 'habitaciones.descripcion',
                 'habitaciones.hotel_id',
+                'hoteles.hotel as hotel',
                 'habitaciones.acomodacion_id',
                 'acomodaciones.acomodacion as acomodacion',
                 'habitaciones.tipo_id',
@@ -239,7 +241,13 @@ class Habitaciones extends Model
         try {
             $habitacion = $this->findOrFail($id);
 
+            $hotel = $hotel->findOrFail($habitacion->hotel_id);
+
+            dd($hotel);
+
             $habitacion->delete();
+
+
 
             return response()->json(
                 $this->successResponse(
