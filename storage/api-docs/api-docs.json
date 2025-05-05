@@ -24,7 +24,28 @@
                 "operationId": "d092c44f47e693db6ecf9452457ae596",
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -62,14 +83,41 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer"
+                                        "success": {
+                                            "type": "boolean"
                                         },
-                                        "acomodacion": {
-                                            "type": "string"
+                                        "data": {
+                                            "type": "object"
                                         },
-                                        "descripcion": {
-                                            "type": "string"
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hotel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -346,7 +394,28 @@
                 "operationId": "7d18c2a35cb4f49e452320d1369353bd",
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -384,14 +453,41 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer"
+                                        "success": {
+                                            "type": "boolean"
                                         },
-                                        "tipo": {
-                                            "type": "string"
+                                        "data": {
+                                            "type": "object"
                                         },
-                                        "descripcion": {
-                                            "type": "string"
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hotel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -422,16 +518,39 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/acomodaciones/{id}/editar": {
             "put": {
                 "tags": [
                     "Acomodaciones"
                 ],
                 "summary": "Update a register",
-                "operationId": "9332ad2e82d34b03cab0f46bde6cffd1",
+                "operationId": "c2575b79735b927a2eea0697bbf254c8",
                 "parameters": [
                     {
                         "name": "id",
@@ -466,16 +585,87 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Updated successfully"
+                        "description": "Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error updating the register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/acomodaciones/{id}/eliminar": {
             "delete": {
                 "tags": [
                     "Acomodaciones"
                 ],
                 "summary": "Delete register",
-                "operationId": "688624baea97f9da508ccb9e1a7fb78d",
+                "operationId": "10628e6e2613b2df69b6f4580a9df4f3",
                 "parameters": [
                     {
                         "name": "id",
@@ -489,16 +679,28 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Service response message"
-                    },
-                    "204": {
-                        "description": "Deleted successfully"
-                    },
-                    "404": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "Internal server error"
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1014,16 +1216,39 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Retrieved successfully"
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/tipos/{id}/editar": {
             "put": {
                 "tags": [
                     "Tipos"
                 ],
                 "summary": "Update a register",
-                "operationId": "595f3944d65caf00352b74f0965be43c",
+                "operationId": "876698e303f353a4f6d3328955d0f8c1",
                 "parameters": [
                     {
                         "name": "id",
@@ -1058,16 +1283,87 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Updated successfully"
+                        "description": "Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error updating the register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/tipos/{id}/eliminar": {
             "delete": {
                 "tags": [
                     "Tipos"
                 ],
                 "summary": "Delete register",
-                "operationId": "e71efcefc2f168293f8699e2e84b5bbb",
+                "operationId": "2bb0701b627dca2d1426cd6dc2b32859",
                 "parameters": [
                     {
                         "name": "id",
@@ -1081,16 +1377,28 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Service response message"
-                    },
-                    "204": {
-                        "description": "Deleted successfully"
-                    },
-                    "404": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "Internal server error"
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -81,7 +81,24 @@ class Habitaciones extends Model
     public function getHabitacionById($id)
     {
         try {
-            $habitacion = $this->findOrFail($id);
+            $habitacion = $this->findOrFail($id)
+                ->join('hoteles', 'habitaciones.hotel_id', '=', 'hoteles.id')
+                ->join('acomodaciones', 'habitaciones.acomodacion_id', '=', 'acomodaciones.id')
+                ->join('tipos', 'habitaciones.tipo_id', '=', 'tipos.id')
+                ->select(
+                    'habitaciones.id',
+                    'habitaciones.habitacion',
+                    'habitaciones.descripcion',
+                    'habitaciones.hotel_id',
+                    'hoteles.hotel as hotel',
+                    'habitaciones.acomodacion_id',
+                    'acomodaciones.acomodacion as acomodacion',
+                    'habitaciones.tipo_id',
+                    'tipos.tipo as tipo',
+                    'habitaciones.created_at',
+                    'habitaciones.updated_at'
+                )
+                ->first();
 
             return response()->json(
                 $this->successResponse(
@@ -92,7 +109,7 @@ class Habitaciones extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Habitacion not found')
                 , 404
             );
@@ -173,7 +190,7 @@ class Habitaciones extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Habitacion not created')
                 , 500
             );
@@ -187,15 +204,15 @@ class Habitaciones extends Model
     public function updateHabitacion($id, Request $request)
     {
         try {
-            $data = $request->validate([
+            $habitacion = $this->findOrFail($id);
+
+            $request->validate([
                 'habitacion' => 'required|string|max:255',
                 'descripcion' => 'nullable|string|max:255',
                 'hotel_id' => 'required|exists:hoteles,id',
                 'acomodacion_id' => 'required|exists:acomodaciones,id',
                 'tipo_id' => 'required|exists:tipos,id',
             ]);
-
-            $habitacion = $this->findOrFail($id);
 
             if($request->has('habitacion')) {
                 $habitacion->habitacion = $request->habitacion;
@@ -225,7 +242,7 @@ class Habitaciones extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Habitacion not found')
                 , 500
             );
@@ -241,13 +258,7 @@ class Habitaciones extends Model
         try {
             $habitacion = $this->findOrFail($id);
 
-            $hotel = $hotel->findOrFail($habitacion->hotel_id);
-
-            dd($hotel);
-
             $habitacion->delete();
-
-
 
             return response()->json(
                 $this->successResponse(
@@ -258,7 +269,7 @@ class Habitaciones extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Habitacion not found')
                 , 500
             );

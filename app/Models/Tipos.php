@@ -37,12 +37,40 @@ class Tipos extends Model
      */
     protected $primaryKey = 'id';
 
+
+    public function successResponse(object $data, string $message = 'Success')
+    {
+        return [
+            'success' => true,
+            'data' => $data,
+            'message' => $message,
+            'error' => [],
+        ];
+    }
+
+    public function errorResponse(object $data, string $message = 'Error')
+    {
+        return [
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+            'error' => $message,
+        ];
+    }
+
     /**
      * @return mixed
      */
     public function getAllTipos()
     {
-        return $this->all();
+        $tipos = Tipos::all();
+
+        return response()->json(
+            $this->successResponse(
+                $tipos,
+                'Tipos retrieved successfully'
+            )
+        );
     }
 
     /**
@@ -54,12 +82,20 @@ class Tipos extends Model
         try {
             $tipo = $this->findOrFail($id);
 
-            return $tipo;
+            return response()->json(
+                $this->successResponse(
+                    $tipo,
+                    'Tipo retrieved successfully'
+                )
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Tipo not found',
-                'error' => $th->getMessage(),
-            ], 404);
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Tipo not found'
+                ),
+                404
+            );
         }
     }
 
@@ -95,12 +131,21 @@ class Tipos extends Model
 
             $newTipo->save();
 
-            return $newTipo;
+            return response()->json(
+                $this->successResponse(
+                    $newTipo,
+                    'Tipo created successfully'
+                ),
+                201
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error creating Tipo',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Tipo not created'
+                ),
+                500
+            );
         }
     }
 
@@ -131,12 +176,20 @@ class Tipos extends Model
 
             $tipo->update();
 
-            return $tipo;
+            return response()->json(
+                $this->successResponse(
+                    $tipo,
+                    'Tipo updated successfully'
+                )
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error updating Tipo',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Tipo not updated'
+                ),
+                500
+            );
         }
     }
 
@@ -146,11 +199,25 @@ class Tipos extends Model
      */
     public function deleteTipo($id)
     {
-        $tipo = $this->find($id);
-        if ($tipo) {
+        try {
+            $tipo = $this->findOrFail($id);
+
             $tipo->delete();
-            return true;
+
+            return response()->json(
+                $this->successResponse(
+                    $tipo,
+                    'Tipo deleted successfully'
+                )
+            );
+        } catch (\Throwable $th) {
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Tipo not deleted'
+                ),
+                500
+            );
         }
-        return false;
     }
 }

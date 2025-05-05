@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Hoteles;
 use Illuminate\Http\Request;
 use App\Models\Acomodaciones;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -69,7 +71,7 @@ class Hoteles extends Model
     public function getAllHoteles()
     {
         $hoteles = $this->leftJoin('habitaciones', 'hoteles.id', '=', 'habitaciones.hotel_id')
-            ->select('hoteles.*', \DB::raw('SUM(habitaciones.hotel_id) as total_habitaciones'))
+            ->select('hoteles.*', \DB::raw('COUNT(habitaciones.hotel_id) as total_habitaciones'))
              ->groupBy('hoteles.id')
              ->get();
 
@@ -101,10 +103,14 @@ class Hoteles extends Model
     public function getHotelById($id)
     {
         try {
-            $hotel = $this->findOrFail($id)->leftJoin('habitaciones', 'hoteles.id', '=', 'habitaciones.hotel_id')
-                ->select('hoteles.*', \DB::raw('SUM(habitaciones.hotel_id) as total_habitaciones'))
-                ->groupBy('hoteles.id')
-                ->first();
+            $hotel = Hoteles::select(
+                'hoteles.*',
+                DB::raw('(SELECT COUNT(*) FROM habitaciones WHERE hotel_id = hoteles.id) as total_habitaciones'),
+            )
+            ->where('id', $id)
+            ->groupBy('hoteles.id')
+            ->first();
+
             if ($hotel->total_habitaciones == null) {
                 $hotel->total_habitaciones += 0;
             }else {
@@ -124,7 +130,7 @@ class Hoteles extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Hotel not found')
                 , 500
             );
@@ -178,7 +184,7 @@ class Hoteles extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Hotel not created')
                 , 500
             );
@@ -244,7 +250,7 @@ class Hoteles extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Hotel not found')
                 , 500
             );
@@ -271,7 +277,7 @@ class Hoteles extends Model
         } catch (\Throwable $th) {
             return response()->json(
                 $this->errorResponse(
-                    $th,
+                    $th->getMessage(),
                     'Hotel not found')
                 , 500
             );

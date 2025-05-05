@@ -37,12 +37,40 @@ class Acomodaciones extends Model
      */
     protected $primaryKey = 'id';
 
+    public function successResponse(object $data, string $message = 'Success')
+    {
+        return [
+            'success' => true,
+            'data' => $data,
+            'message' => $message,
+            'error' => [],
+        ];
+    }
+
+    public function errorResponse(object $data, string $message = 'Error')
+    {
+        return [
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+            'error' => $message,
+        ];
+    }
+
     /**
      * @return mixed
      */
     public function getAllAcomodaciones()
     {
-        return $this->all();
+        $acomodaciones = Acomodaciones::all();
+
+        return response()->json(
+            $this->successResponse(
+                $acomodaciones,
+                'Acomodaciones retrieved successfully'
+            ),
+            200
+        );
     }
 
     /**
@@ -54,12 +82,21 @@ class Acomodaciones extends Model
         try {
             $acomodacion = $this->findOrFail($id);
 
-            return $acomodacion;
+            return response()->json(
+                $this->successResponse(
+                    $acomodacion,
+                    'Acomodacion retrieved successfully'
+                ),
+                200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Acomodacion not found',
-                'error' => $th->getMessage(),
-            ], 404);
+            return response()->json(
+                $this->errorResponse(
+                    $acomodacion,
+                    'Acomodacion not found',
+                ),
+                404
+            );
         }
     }
 
@@ -95,12 +132,19 @@ class Acomodaciones extends Model
 
             $newAcomodacion->save();
 
-            return $newAcomodacion;
+            return response()->json(
+                $this->successResponse(
+                    $newAcomodacion,
+                    'Acomodacion created successfully')
+                , 201
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error creating Acomodacion',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Acomodacion not created')
+                , 500
+            );
         }
     }
 
@@ -131,12 +175,19 @@ class Acomodaciones extends Model
 
             $acomodacion->update();
 
-            return $acomodacion;
+            return response()->json(
+                $this->successResponse(
+                    $acomodacion,
+                    'Acomodacion updated successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Error updating Acomodacion',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Acomodacion not updated')
+                , 500
+            );
         }
     }
 
@@ -151,16 +202,19 @@ class Acomodaciones extends Model
 
             $acomodacion->delete();
 
-            return response()->json([
-                'data' => $acomodacion,
-                'message' => 'Acomodacion deleted sussesfull',
-            ], 204);
+            return response()->json(
+                $this->successResponse(
+                    $acomodacion,
+                    'Acomodacion deleted successfully')
+                , 200
+            );
         } catch (\Throwable $th) {
-            return response()->json([
-                'data' => 'Error deleting Acomodacion',
-                'message' => 'Error deleting Acomodacion',
-                'error' => $th->getMessage(),
-            ], 500);
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Acomodacion not deleted')
+                , 500
+            );
         }
     }
 }

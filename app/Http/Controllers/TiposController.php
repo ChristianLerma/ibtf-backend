@@ -33,7 +33,13 @@ class TiposController extends Controller
      *       @OA\Response(
      *          response=200,
      *          description="Retrieved successfully",
-     *      )
+     *          @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *          )
+     *       )
      *    ),
      * )
     */
@@ -46,13 +52,19 @@ class TiposController extends Controller
          *     summary="Get all registers",
          *     @OA\Response(
          *         response=200,
-         *         description="Retrieved successfully"
+         *         description="Retrieved successfully",
+         *         @OA\JsonContent(
+         *            @OA\Property(property="success", type="boolean"),
+         *            @OA\Property(property="data", type="object"),
+         *            @OA\Property(property="message", type="object"),
+         *            @OA\Property(property="error", type="object")
+         *         )
          *     )
          * )
          */
         $tipos = $this->tipos->getAllTipos();
 
-        return response()->json($tipos);
+        return $tipos;
     }
 
     /**
@@ -69,24 +81,26 @@ class TiposController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Retrieved successfully"
+     *         description="Retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *        )
      *     )
      * )
      */
     public function show($id)
     {
         $tipo = $this->tipos->getTipoById($id);
-        if (!$tipo) {
-            return response()->json([
-                'message' => 'Tipo not found',
-            ], 404);
-        }
-        return response()->json($tipo);
+
+        return $tipo;
     }
 
     /**
      * @OA\Put(
-     *     path="/api/v1/tipos/{id}",
+     *     path="/api/v1/tipos/{id}/editar",
      *     tags={"Tipos"},
      *     summary="Update a register",
      *     @OA\Parameter(
@@ -106,18 +120,41 @@ class TiposController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Updated successfully"
+     *         description="Updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error updating the register",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, $id)
     {
         $tipo = $this->tipos->updateTipo($id, $request);
-        if (!$tipo) {
-            return response()->json(['message' => 'Tipos not found'], 404);
-        }
 
-        return response()->json($tipo);
+        return $tipo;
     }
 
     /**
@@ -137,9 +174,20 @@ class TiposController extends Controller
      *         response=201,
      *         description="Created successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="tipo", type="string"),
-     *             @OA\Property(property="descripcion", type="string")
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Hotel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
      *         )
      *     )
      * )
@@ -148,12 +196,12 @@ class TiposController extends Controller
     {
         $tipo = $this->tipos->createTipo($request);
 
-        return response()->json($tipo, 201);
+        return $tipo;
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/tipos/{id}",
+     *     path="/api/v1/tipos/{id}/eliminar",
      *     tags={"Tipos"},
      *     summary="Delete register",
      *     @OA\Parameter(
@@ -165,32 +213,21 @@ class TiposController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Service response message",
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="Deleted successfully"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Not found"
-     *     ),
-     *    @OA\Response(
-     *        response=500,
-     *       description="Internal server error"
-     *    )
+     *         description="Deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     )
      * )
      */
     public function destroy($id)
     {
-        $tipo = $this->tipos->getTipoById($id);
-        if (!$tipo) {
-            return response()->json(['message' => 'Tipo not found'], 404);
-        }
+        $tipo = $this->tipos->deleteTipo($id);
 
-        $tipo->delete();
-
-        return response()->json(null, 204);
+        return $tipo;
     }
 
     /**

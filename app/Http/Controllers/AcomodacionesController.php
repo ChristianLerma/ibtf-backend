@@ -52,6 +52,12 @@ class AcomodacionesController extends Controller
      *       @OA\Response(
      *          response=200,
      *          description="Retrieved successfully",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *      )
      *    ),
      * )
@@ -65,13 +71,19 @@ class AcomodacionesController extends Controller
          *     summary="Get all registers",
          *     @OA\Response(
          *         response=200,
-         *         description="Retrieved successfully"
+         *         description="Retrieved successfully",
+         *         @OA\JsonContent(
+         *            @OA\Property(property="success", type="boolean"),
+         *            @OA\Property(property="data", type="object"),
+         *            @OA\Property(property="message", type="object"),
+         *            @OA\Property(property="error", type="object")
+         *         )
          *     )
          * )
          */
         $acomodaciones = $this->acomodaciones->getAllAcomodaciones();
 
-        return response()->json($acomodaciones);
+        return $acomodaciones;
     }
 
     /**
@@ -88,22 +100,26 @@ class AcomodacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Retrieved successfully"
+     *         description="Retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *        )
      *     )
      * )
      */
     public function show($id)
     {
         $acomodacion = $this->acomodaciones->getAcomodacionById($id);
-        if (!$acomodacion) {
-            return response()->json(['message' => 'Acomodacion not found'], 404);
-        }
-        return response()->json($acomodacion);
+
+        return $acomodacion;
     }
 
     /**
      * @OA\Put(
-     *     path="/api/v1/acomodaciones/{id}",
+     *     path="/api/v1/acomodaciones/{id}/editar",
      *     tags={"Acomodaciones"},
      *     summary="Update a register",
      *     @OA\Parameter(
@@ -123,18 +139,41 @@ class AcomodacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Updated successfully"
+     *         description="Updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error updating the register",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, $id)
     {
         $acomodacion = $this->acomodaciones->updateAcomodacion($id, $request);
-        if (!$acomodacion) {
-            return response()->json(['message' => 'Acomodacion not found'], 404);
-        }
 
-        return response()->json($acomodacion);
+        return $acomodacion;
     }
 
     /**
@@ -154,9 +193,20 @@ class AcomodacionesController extends Controller
      *         response=201,
      *         description="Created successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="acomodacion", type="string"),
-     *             @OA\Property(property="descripcion", type="string")
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Hotel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
      *         )
      *     )
      * )
@@ -165,12 +215,12 @@ class AcomodacionesController extends Controller
     {
         $acomodacion = $this->acomodaciones->createAcomodacion($request);
 
-        return response()->json($acomodacion, 201);
+        return $acomodacion;
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/acomodaciones/{id}",
+     *     path="/api/v1/acomodaciones/{id}/eliminar",
      *     tags={"Acomodaciones"},
      *     summary="Delete register",
      *     @OA\Parameter(
@@ -182,27 +232,21 @@ class AcomodacionesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Service response message",
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="Deleted successfully"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Not found"
-     *     ),
-     *    @OA\Response(
-     *        response=500,
-     *       description="Internal server error"
-     *    )
+     *         description="Deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     )
      * )
      */
     public function destroy($id)
     {
-        $result = $this->acomodaciones->deleteAcomodacion($id);
+        $acomodacion = $this->acomodaciones->deleteAcomodacion($id);
 
-        return response()->json($result);
+        return $acomodacion;
     }
 
     /**
