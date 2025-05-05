@@ -689,7 +689,7 @@
                     "Acomodaciones"
                 ],
                 "summary": "Delete register",
-                "operationId": "10628e6e2613b2df69b6f4580a9df4f3",
+                "operationId": "583aebbf8fba77a5076a9b0d968ee5fd",
                 "parameters": [
                     {
                         "name": "id",

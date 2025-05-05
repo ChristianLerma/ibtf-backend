@@ -253,7 +253,7 @@ class AcomodacionesController extends Controller
      *     )
      * )
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $acomodacion = $this->acomodaciones->deleteAcomodacion($id);
 

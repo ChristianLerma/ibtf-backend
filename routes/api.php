@@ -21,11 +21,15 @@ Route::get('/ping', function () {
  * Acomodaciones Routes
  */
 Route::apiResource('v1/acomodaciones', AcomodacionesController::class);
+Route::put('v1/acomodaciones/{id}/editar', [AcomodacionesController::class, 'update'])->name('acomodaciones.editar');
+Route::delete('v1/acomodaciones/{id}/eliminar', [AcomodacionesController::class, 'delete'])->name('acomodaciones.eliminar');
 
 /**
  * Tipos Routes
  */
 Route::apiResource('v1/tipos', TiposController::class);
+Route::put('v1/tipos/{id}/editar', [TiposController::class, 'update'])->name('tipos.editar');
+Route::delete('v1/tipos/{id}/eliminar', [TiposController::class, 'delete'])->name('tipos.eliminar');
 
 /**
  * Hoteles Routes
