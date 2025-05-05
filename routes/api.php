@@ -32,13 +32,13 @@ Route::apiResource('v1/tipos', TiposController::class);
  */
 Route::apiResource('v1/hoteles', HotelesController::class);
 Route::get('v1/hoteles/nombre/{nombre}', [HotelesController::class, 'getHotelesByNombre'])->name('hoteles.nombre');
-Route::put('v1/hoteles/{id}/editar', [HotelesController::class, 'update'])->name('hoteles.update');
-Route::delete('v1/hoteles/{id}/eliminar', [HotelesController::class, 'delete'])->name('hoteles.delete');
+Route::put('v1/hoteles/{id}/editar', [HotelesController::class, 'update'])->name('hoteles.editar');
+Route::delete('v1/hoteles/{id}/eliminar', [HotelesController::class, 'delete'])->name('hoteles.eliminar');
 
 /**
  * Habitaciones Routes
  */
 Route::apiResource('v1/habitaciones', HabitacionesController::class);
 Route::get('v1/habitaciones/hotel/{hotel_id}', [HabitacionesController::class, 'getHabitacionesByHotel'])->name('habitaciones.hotel');
-Route::put('v1/habitaciones/{id}/editar', [HabitacionesController::class, 'update'])->name('habitaciones.update');
-Route::delete('v1/habitaciones/{id}/eliminar', [HabitacionesController::class, 'delete'])->name('habitaciones.delete');
+Route::put('v1/habitaciones/{id}/editar', [HabitacionesController::class, 'update'])->name('habitaciones.editar');
+Route::delete('v1/habitaciones/{id}/eliminar', [HabitacionesController::class, 'delete'])->name('habitaciones.eliminar');
