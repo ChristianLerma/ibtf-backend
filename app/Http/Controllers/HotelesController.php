@@ -153,7 +153,17 @@ class HotelesController extends Controller
      *             @OA\Property(property="message", type="object"),
      *             @OA\Property(property="error", type="object")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Hotel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *        )
+     *    )
      * )
      */
     public function update(Request $request, $id)

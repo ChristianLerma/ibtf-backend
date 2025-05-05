@@ -81,6 +81,17 @@ class Habitaciones extends Model
     public function getHabitacionById($id)
     {
         try {
+            $buscar = $this->where('id', $id)->first();
+            if ($buscar == null) {
+                return response()->json([
+                    'success' => true,
+                    'data' => null,
+                    'message' => "Habitacion not found",
+                    'error' => 'Habitacion not found',
+                    ], 404
+                );
+            }
+
             $habitacion = $this->findOrFail($id)
                 ->join('hoteles', 'habitaciones.hotel_id', '=', 'hoteles.id')
                 ->join('acomodaciones', 'habitaciones.acomodacion_id', '=', 'acomodaciones.id')
@@ -98,6 +109,7 @@ class Habitaciones extends Model
                     'habitaciones.created_at',
                     'habitaciones.updated_at'
                 )
+                ->where('habitaciones.id', $id)
                 ->first();
 
             return response()->json(

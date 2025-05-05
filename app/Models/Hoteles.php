@@ -103,6 +103,17 @@ class Hoteles extends Model
     public function getHotelById($id)
     {
         try {
+            $buscar = $this->where('id', $id)->first();
+            if ($buscar == null) {
+                return response()->json([
+                    'success' => true,
+                    'data' => null,
+                    'message' => "Hotel not found",
+                    'error' => 'Hotel not found',
+                    ], 404
+                );
+            }
+
             $hotel = Hoteles::select(
                 'hoteles.*',
                 DB::raw('(SELECT COUNT(*) FROM habitaciones WHERE hotel_id = hoteles.id) as total_habitaciones'),

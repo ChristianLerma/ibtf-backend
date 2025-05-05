@@ -80,6 +80,17 @@ class Tipos extends Model
     public function getTipoById($id)
     {
         try {
+            $buscar = $this->where('id', $id)->first();
+            if ($buscar == null) {
+                return response()->json([
+                    'success' => true,
+                    'data' => null,
+                    'message' => "Tipo not found",
+                    'error' => 'Tipo not found',
+                    ], 404
+                );
+            }
+
             $tipo = $this->findOrFail($id);
 
             return response()->json(

@@ -80,6 +80,17 @@ class Acomodaciones extends Model
     public function getAcomodacionById($id)
     {
         try {
+            $buscar = $this->where('id', $id)->first();
+            if ($buscar == null) {
+                return response()->json([
+                    'success' => true,
+                    'data' => null,
+                    'message' => "Acomodacion not found",
+                    'error' => 'Acomodacion not found',
+                    ], 404
+                );
+            }
+
             $acomodacion = $this->findOrFail($id);
 
             return response()->json(
