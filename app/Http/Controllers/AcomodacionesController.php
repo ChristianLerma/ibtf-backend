@@ -180,7 +180,7 @@ class AcomodacionesController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
         $acomodacion = $this->acomodaciones->updateAcomodacion($id, $request);
 
