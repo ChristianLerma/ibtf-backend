@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('habitacion');
             $table->string('descripcion')->nullable();
+            $table->integer('cantidad')->default(0);
 
             $table->foreignId('hotel_id')
                 ->constrained('hoteles')

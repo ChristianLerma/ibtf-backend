@@ -19,6 +19,7 @@ class HabitacionesFactory extends Factory
         return [
             'habitacion' => fake()->name(),
             'descripcion' => fake()->text(),
+            'cantidad' => fake()->numberBetween(1, 10),
             'hotel_id' => 1,
             'acomodacion_id' => 1,
             'tipo_id' => 1,

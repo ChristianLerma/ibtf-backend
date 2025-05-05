@@ -31,6 +31,7 @@ Route::apiResource('v1/tipos', TiposController::class);
  * Hoteles Routes
  */
 Route::apiResource('v1/hoteles', HotelesController::class);
+Route::get('v1/hoteles/nombre/{nombre}', [HotelesController::class, 'getHotelesByNombre'])->name('hoteles.nombre');
 Route::put('v1/hoteles/{id}/editar', [HotelesController::class, 'update'])->name('hoteles.update');
 Route::delete('v1/hoteles/{id}/eliminar', [HotelesController::class, 'delete'])->name('hoteles.delete');
 

@@ -71,7 +71,7 @@ class Hoteles extends Model
     public function getAllHoteles()
     {
         $hoteles = $this->leftJoin('habitaciones', 'hoteles.id', '=', 'habitaciones.hotel_id')
-            ->select('hoteles.*', \DB::raw('COUNT(habitaciones.hotel_id) as total_habitaciones'))
+            ->select('hoteles.*', \DB::raw('SUM(habitaciones.cantidad) as total_habitaciones'))
              ->groupBy('hoteles.id')
              ->get();
 
@@ -116,7 +116,7 @@ class Hoteles extends Model
 
             $hotel = Hoteles::select(
                 'hoteles.*',
-                DB::raw('(SELECT COUNT(*) FROM habitaciones WHERE hotel_id = hoteles.id) as total_habitaciones'),
+                DB::raw('(SELECT SUM(cantidad) FROM habitaciones WHERE hotel_id = hoteles.id) as total_habitaciones'),
             )
             ->where('id', $id)
             ->groupBy('hoteles.id')
@@ -130,6 +130,50 @@ class Hoteles extends Model
 
             if ($hotel->calificacion == null) {
                 $hotel->calificacion = +0;
+            }
+
+            return response()->json(
+                $this->successResponse(
+                    $hotel,
+                    'Hotel retrieved successfully')
+                , 200
+            );
+        } catch (\Throwable $th) {
+            return response()->json(
+                $this->errorResponse(
+                    $th->getMessage(),
+                    'Hotel not found')
+                , 500
+            );
+        }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getHotelesByNombre($nombre)
+    {
+        try {
+            $buscar = $this->where('hotel', 'like', '%' . $nombre . '%')->first();
+            if ($buscar == null) {
+                return response()->json([
+                    'success' => true,
+                    'data' => [],
+                    'message' => "Hotel not found",
+                    'error' => 'Hotel not found',
+                    ], 404
+                );
+            }
+
+            $hotel = $this->where('hotel', 'like', '%' . $nombre . '%')->get()->select('id', 'hotel');
+            if ($hotel->isEmpty()) {
+                return response()->json(
+                    $this->errorResponse(
+                        null,
+                        'Hotel not found')
+                    , 404
+                );
             }
 
             return response()->json(

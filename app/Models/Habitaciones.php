@@ -18,6 +18,7 @@ class Habitaciones extends Model
         'id',
         'habitacion',
         'descripcion',
+        'cantidad',
         'hotel_id',
         'acomodacion_id',
         'tipo_id',
@@ -100,6 +101,7 @@ class Habitaciones extends Model
                     'habitaciones.id',
                     'habitaciones.habitacion',
                     'habitaciones.descripcion',
+                    'habitaciones.cantidad',
                     'habitaciones.hotel_id',
                     'hoteles.hotel as hotel',
                     'habitaciones.acomodacion_id',
@@ -142,6 +144,7 @@ class Habitaciones extends Model
                 'habitaciones.id',
                 'habitaciones.habitacion',
                 'habitaciones.descripcion',
+                'habitaciones.cantidad',
                 'habitaciones.hotel_id',
                 'hoteles.hotel as hotel',
                 'habitaciones.acomodacion_id',
@@ -171,6 +174,7 @@ class Habitaciones extends Model
             $request->validate([
                 'habitacion' => 'required|string|max:255',
                 'descripcion' => 'nullable|string|max:255',
+                'cantidad' => 'required|integer|min:1',
                 'hotel_id' => 'required|exists:hoteles,id',
                 'acomodacion_id' => 'required|exists:acomodaciones,id',
                 'tipo_id' => 'required|exists:tipos,id',
@@ -185,6 +189,7 @@ class Habitaciones extends Model
 
             $newHabitacion->habitacion = $request->habitacion;
             $newHabitacion->descripcion = $request->descripcion;
+            $newHabitacion->cantidad = $request->cantidad;
             $newHabitacion->hotel_id = $request->hotel_id;
             $newHabitacion->acomodacion_id = $request->acomodacion_id;
             $newHabitacion->tipo_id = $request->tipo_id;
@@ -221,6 +226,7 @@ class Habitaciones extends Model
             $request->validate([
                 'habitacion' => 'required|string|max:255',
                 'descripcion' => 'nullable|string|max:255',
+                'cantidad' => 'required|integer|min:1',
                 'hotel_id' => 'required|exists:hoteles,id',
                 'acomodacion_id' => 'required|exists:acomodaciones,id',
                 'tipo_id' => 'required|exists:tipos,id',
@@ -231,6 +237,9 @@ class Habitaciones extends Model
             }
             if($request->has('descripcion')) {
                 $habitacion->descripcion = $request->descripcion;
+            }
+            if($request->has('cantidad')) {
+                $habitacion->cantidad = $request->cantidad;
             }
             if($request->has('hotel_id')) {
                 $habitacion->hotel_id = $request->hotel_id;

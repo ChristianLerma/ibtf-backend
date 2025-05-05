@@ -1222,6 +1222,52 @@
                 }
             }
         },
+        "/api/v1/hoteles/nombre/{nombre}": {
+            "get": {
+                "tags": [
+                    "Hoteles"
+                ],
+                "summary": "Get a register by name",
+                "operationId": "2d9ade35b1808b6da5e28694c6c6e67c",
+                "parameters": [
+                    {
+                        "name": "nombre",
+                        "in": "path",
+                        "description": "Name of the hotel",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/hoteles/{id}/eliminar": {
             "delete": {
                 "tags": [

@@ -222,6 +222,37 @@ class HotelesController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v1/hoteles/nombre/{nombre}",
+     *     tags={"Hoteles"},
+     *     summary="Get a register by name",
+     *     @OA\Parameter(
+     *         name="nombre",
+     *         in="path",
+     *         required=true,
+     *         description="Name of the hotel",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="error", type="object")
+     *         )
+     *     )
+     * )
+     */
+    public function getHotelesByNombre($nombre)
+    {
+        $hoteles = $this->hoteles->getHotelesByNombre($nombre);
+
+        return $hoteles;
+    }
+
+    /**
      * @OA\Delete(
      *     path="/api/v1/hoteles/{id}/eliminar",
      *     tags={"Hoteles"},
