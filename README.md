@@ -17,6 +17,8 @@ Este proyecto es un backend desarrollado en Laravel que expone una API para la g
 
 Laravel es un framework de aplicaciones web con una sintaxis expresiva y elegante. Este proyecto aprovecha las características principales de Laravel, como el motor de enrutamiento rápido, el contenedor de inyección de dependencias, el ORM Eloquent y las migraciones de esquema agnósticas de base de datos.
 
+Además, el proyecto utiliza **Laravel Sail**, un entorno de desarrollo ligero basado en **Docker**, que facilita la configuración y ejecución del proyecto en contenedores.
+
 ---
 
 ## Tecnologías Utilizadas
@@ -25,17 +27,19 @@ Este proyecto utiliza las siguientes tecnologías y lenguajes de programación:
 
 - ![PHP](https://img.shields.io/badge/-PHP-333333?style=flat&logo=php) **PHP**: Lenguaje principal del backend.
 - ![Laravel](https://img.shields.io/badge/-Laravel-FF2D20?style=flat&logo=laravel&logoColor=white) **Laravel**: Framework para el desarrollo del backend.
-- ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?style=flat&logo=mysql&logoColor=white) **MySQL**: Base de datos relacional utilizada.
+- ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white) **PostgreSQL**: Base de datos relacional utilizada.
+- ![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white) **Docker**: Plataforma para la ejecución de contenedores.
 - ![Composer](https://img.shields.io/badge/-Composer-885630?style=flat&logo=composer&logoColor=white) **Composer**: Herramienta para la gestión de dependencias.
+- ![Swagger](https://img.shields.io/badge/-Swagger-85EA2D?style=flat&logo=swagger&logoColor=black) **Swagger**: Herramienta para la documentación interactiva de la API.
 
 ---
 
 ## Requisitos Previos
 
-- **PHP**: Versión 8.0 o superior.
-- **Composer**: Para la gestión de dependencias.
-- **Base de Datos**: MySQL o cualquier otra base de datos compatible con Laravel.
-- **Servidor Web**: Apache o Nginx.
+- **Docker**: Instalado y configurado en tu sistema.
+- **Docker Compose**: Para la gestión de contenedores.
+- **PHP**: Versión 8.0 o superior (opcional si no usas Docker).
+- **Composer**: Para la gestión de dependencias (opcional si no usas Docker).
 
 ---
 
@@ -47,7 +51,7 @@ Este proyecto utiliza las siguientes tecnologías y lenguajes de programación:
    cd itbf-backend
    ```
 
-2. Instala las dependencias:
+2. Instala las dependencias utilizando Composer:
    ```bash
    composer install
    ```
@@ -57,38 +61,81 @@ Este proyecto utiliza las siguientes tecnologías y lenguajes de programación:
      ```bash
      cp .env.example .env
      ```
-   - Configura las variables de entorno, como la conexión a la base de datos.
+   - Configura las variables de entorno, como la conexión a la base de datos PostgreSQL.
 
-4. Genera la clave de la aplicación:
+4. Inicia el entorno de desarrollo con Laravel Sail:
    ```bash
-   php artisan key:generate
+   ./vendor/bin/sail up -d
    ```
 
-5. Ejecuta las migraciones y los seeders:
+5. Genera la clave de la aplicación:
    ```bash
-   php artisan migrate --seed
+   ./vendor/bin/sail artisan key:generate
    ```
 
-6. Configura los permisos de las carpetas necesarias (si es necesario):
+6. Ejecuta las migraciones y los seeders:
    ```bash
-   chmod -R 775 storage bootstrap/cache
+   ./vendor/bin/sail artisan migrate --seed
    ```
 
 ---
 
 ## Uso
 
-1. Inicia el servidor de desarrollo:
+1. Inicia el entorno de desarrollo (si no está corriendo):
    ```bash
-   php artisan serve
+   ./vendor/bin/sail up -d
    ```
 
 2. Accede a la API en:
    ```
-   http://localhost:8000
+   http://localhost
    ```
 
 3. Consulta los endpoints disponibles en la sección "Endpoints Principales".
+
+---
+
+## Documentación de la API con Swagger
+
+El proyecto incluye una integración con **Swagger** para generar documentación interactiva de la API. Esto permite a los desarrolladores explorar y probar los endpoints directamente desde el navegador.
+
+### Acceso a Swagger
+
+1. Asegúrate de que el entorno de desarrollo esté corriendo:
+   ```bash
+   ./vendor/bin/sail up -d
+   ```
+
+2. Accede a la interfaz de Swagger en:
+   ```
+   http://localhost/api/v1/documentation
+   ```
+
+### Generación de la Documentación
+
+Si realizas cambios en los endpoints o deseas actualizar la documentación, sigue estos pasos:
+
+1. Instala las dependencias necesarias para Swagger (si no están instaladas):
+   ```bash
+   composer require "darkaonline/l5-swagger"
+   ```
+
+2. Genera la documentación actualizada:
+   ```bash
+   ./vendor/bin/sail artisan l5-swagger:generate
+   ```
+
+3. Verifica los cambios accediendo nuevamente a la interfaz de Swagger.
+
+### Configuración de Swagger
+
+El archivo de configuración de Swagger se encuentra en:
+```
+config/l5-swagger.php
+```
+
+Puedes personalizar aspectos como el título de la documentación, la versión de la API y los esquemas de seguridad.
 
 ---
 
