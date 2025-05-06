@@ -1,3 +1,5 @@
+# Documentación del Proyecto
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -7,34 +9,116 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Descripción
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Este proyecto es un backend desarrollado en Laravel que expone una API para la gestión de recursos relacionados con [descripción del dominio del proyecto, por ejemplo, hoteles, habitaciones, etc.]. Incluye endpoints para realizar operaciones CRUD.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Laravel es un framework de aplicaciones web con una sintaxis expresiva y elegante. Este proyecto aprovecha las características principales de Laravel, como el motor de enrutamiento rápido, el contenedor de inyección de dependencias, el ORM Eloquent y las migraciones de esquema agnósticas de base de datos.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tecnologías Utilizadas
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Este proyecto utiliza las siguientes tecnologías y lenguajes de programación:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- ![PHP](https://img.shields.io/badge/-PHP-333333?style=flat&logo=php) **PHP**: Lenguaje principal del backend.
+- ![Laravel](https://img.shields.io/badge/-Laravel-FF2D20?style=flat&logo=laravel&logoColor=white) **Laravel**: Framework para el desarrollo del backend.
+- ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?style=flat&logo=mysql&logoColor=white) **MySQL**: Base de datos relacional utilizada.
+- ![Composer](https://img.shields.io/badge/-Composer-885630?style=flat&logo=composer&logoColor=white) **Composer**: Herramienta para la gestión de dependencias.
+
+---
+
+## Requisitos Previos
+
+- **PHP**: Versión 8.0 o superior.
+- **Composer**: Para la gestión de dependencias.
+- **Base de Datos**: MySQL o cualquier otra base de datos compatible con Laravel.
+- **Servidor Web**: Apache o Nginx.
+
+---
+
+## Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd itbf-backend
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   composer install
+   ```
+
+3. Configura el archivo `.env`:
+   - Copia el archivo de ejemplo:
+     ```bash
+     cp .env.example .env
+     ```
+   - Configura las variables de entorno, como la conexión a la base de datos.
+
+4. Genera la clave de la aplicación:
+   ```bash
+   php artisan key:generate
+   ```
+
+5. Ejecuta las migraciones y los seeders:
+   ```bash
+   php artisan migrate --seed
+   ```
+
+6. Configura los permisos de las carpetas necesarias (si es necesario):
+   ```bash
+   chmod -R 775 storage bootstrap/cache
+   ```
+
+---
+
+## Uso
+
+1. Inicia el servidor de desarrollo:
+   ```bash
+   php artisan serve
+   ```
+
+2. Accede a la API en:
+   ```
+   http://localhost:8000
+   ```
+
+3. Consulta los endpoints disponibles en la sección "Endpoints Principales".
+
+---
+
+## Endpoints Principales
+
+### Gestión de Hoteles
+- **GET** `/api/v1/hoteles`: Obtiene todos los hoteles.
+- **POST** `/api/v1/hoteles`: Crea un nuevo hotel.
+- **PUT** `/api/v1/hoteles/{id}`: Actualiza un hotel existente.
+- **DELETE** `/api/v1/hoteles/{id}`: Elimina un hotel.
+
+### Gestión de Habitaciones
+- **GET** `/api/v1/habitaciones`: Obtiene todas las habitaciones.
+- **POST** `/api/v1/habitaciones`: Crea una nueva habitación.
+- **PUT** `/api/v1/habitaciones/{id}`: Actualiza una habitación existente.
+- **DELETE** `/api/v1/habitaciones/{id}`: Elimina una habitación.
+
+---
+
+## Recursos de Aprendizaje
+
+Laravel cuenta con una extensa y detallada [documentación](https://laravel.com/docs) y una biblioteca de tutoriales en video en [Laracasts](https://laracasts.com). También puedes explorar el [Laravel Bootcamp](https://bootcamp.laravel.com) para aprender a construir una aplicación moderna desde cero.
+
+---
 
 ## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Agradecemos a los siguientes patrocinadores por apoyar el desarrollo de Laravel. Si estás interesado en convertirte en patrocinador, visita el programa [Laravel Partners](https://partners.laravel.com).
 
-### Premium Partners
-
+### Socios Premium
 - **[Vehikl](https://vehikl.com/)**
 - **[Tighten Co.](https://tighten.co)**
 - **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
@@ -44,18 +128,31 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[Redberry](https://redberry.international/laravel-development/)**
 - **[Active Logic](https://activelogic.com)**
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Contribución
 
-## Code of Conduct
+1. Crea un fork del repositorio.
+2. Crea una rama para tu funcionalidad:
+   ```bash
+   git checkout -b feature/nueva-funcionalidad
+   ```
+3. Realiza tus cambios y haz un commit:
+   ```bash
+   git commit -m "Agrega nueva funcionalidad"
+   ```
+4. Envía un pull request.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Para más detalles, consulta la [guía de contribución](https://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Seguridad
 
-## License
+Si descubres una vulnerabilidad de seguridad en Laravel, envía un correo electrónico a Taylor Otwell a través de [taylor@laravel.com](mailto:taylor@laravel.com). Todas las vulnerabilidades serán atendidas de manera inmediata.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Licencia
+
+El framework Laravel es un software de código abierto licenciado bajo la [MIT License](https://opensource.org/licenses/MIT).
